@@ -98,8 +98,8 @@ var SIGNALS = [];
                                     _a.sent();
                                     treidEvoBot = new treidEvolutionBot_1.default(b, p);
                                     utils_1.stepOras["BOT ANALYSIS"].done('The Analyzer is Ready!');
-                                    worker.postMessage({ type: "power", value: true });
                                     worker.postMessage({ type: "register", value: credentials.signals });
+                                    worker.postMessage({ type: "power", value: true });
                                     isRunning = true;
                                     telegram.start(function (ctx) {
                                         return ctx.reply("O robô está disponível, envie 'start' | 'stop' para controlar a sua operatividade.");
