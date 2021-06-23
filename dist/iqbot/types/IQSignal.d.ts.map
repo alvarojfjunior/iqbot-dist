@@ -1,0 +1,1 @@
+{"version":3,"file":"IQSignal.d.ts","sourceRoot":"","sources":["../../../src/iqbot/types/IQSignal.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,QAAQ,CAAC;AAEhC,oBAAY,cAAc,GAAG;IAC3B,CAAC,EAAE,MAAM,CAAC;IACV,IAAI,EAAE,CAAC,MAAM,EAAE,MAAM,CAAC,CAAC;IACvB,IAAI,EAAE,MAAM,CAAC;IACb,MAAM,EAAE,MAAM,GAAG,KAAK,CAAC;CACxB,CAAC"}

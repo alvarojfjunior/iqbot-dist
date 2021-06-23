@@ -1,0 +1,22 @@
+{
+  "name": "iqbot",
+  "version": "1.0.0",
+  "author": "Álvaro Ferreira <alvarojfjunior@gmail.com>",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index.js"
+  },
+  "dependencies": {
+    "firebase": "^8.6.8",
+    "moment": "^2.29.1",
+    "ora": "^5.3.0",
+    "puppeteer": "^8.0.0",
+    "telegraf": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "typescript": "^4.2.3"
+  }
+}
