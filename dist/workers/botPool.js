@@ -60,14 +60,18 @@ var parentPort = require('worker_threads').parentPort;
 var moment = require('moment');
 var handleAuth = require('../credential/credentials').handleAuth;
 var queueSignals = [];
-var isRunning = false;
+var isRunning = true;
 parentPort.on('message', function (message) {
     if (message.type === 'power') {
         isRunning = message.value;
-        if (message.value === true)
+        if (message.value === true) {
             console.log('O robô está em operação.');
-        else
+            isRunning = true;
+        }
+        else {
             console.log('O robô foi parado.');
+            isRunning = false;
+        }
         message.type = '';
     }
 });
@@ -85,49 +89,56 @@ parentPort.on('message', function (message) {
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                if (!true) return [3 /*break*/, 12];
-                if (!((moment().hours() === 1 && moment().minutes() === 12) || (moment().hours() === 13 && moment().minutes() === 12))) return [3 /*break*/, 5];
+                if (!true) return [3 /*break*/, 14];
+                if (!((moment().hours() === 1 && moment().minutes() === 12) || (moment().hours() === 13 && moment().minutes() === 12))) return [3 /*break*/, 4];
+                console.log('entrou no timer');
                 return [4 /*yield*/, handleAuth()];
             case 1:
                 _a = _b.sent(), signals = _a.signals, auth = _a.auth;
                 queueSignals = [];
                 if (!auth) return [3 /*break*/, 3];
                 signalss = parse(signals);
-                queueSignals = signalss;
-                console.log('Sinal recebido. Situação atual da fila: ');
+                queueSignals = queueSignals.concat(signalss);
+                console.log('Sinais recebidos do servidor. Situação atual da fila: ');
                 queueSignals.map(function (s) { return console.log("M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action); });
-                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 60000); })];
+                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 10000); })];
             case 2:
                 _b.sent();
                 return [3 /*break*/, 4];
             case 3: return [2 /*return*/];
-            case 4: return [3 /*break*/, 10];
-            case 5:
-                if (!(queueSignals.length > 0 && isRunning)) return [3 /*break*/, 10];
+            case 4:
+                if (!(queueSignals.length > 0 && isRunning)) return [3 /*break*/, 11];
                 i = 0;
-                _b.label = 6;
-            case 6:
+                _b.label = 5;
+            case 5:
                 if (!(i < queueSignals.length)) return [3 /*break*/, 10];
-                if (!timeIsValid(queueSignals[i].time)) return [3 /*break*/, 8];
+                if (!timeIsValid(queueSignals[i].time)) return [3 /*break*/, 7];
                 strSignal = "M" + queueSignals[i].m + ";" + queueSignals[i].pair + ";" + queueSignals[i].time + ";" + queueSignals[i].action;
                 parentPort.postMessage({ type: 'send', value: strSignal });
                 queueSignals.splice(i, 1);
-                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 60000); })];
-            case 7:
+                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 30000); })];
+            case 6:
                 _b.sent();
                 return [3 /*break*/, 9];
-            case 8:
-                if (moment(queueSignals[i].time, "HH:mm:ss").hours() < moment().hours())
+            case 7:
+                if (moment(queueSignals[i].time, "HH:mm:ss").hours() < moment().hours()) {
                     queueSignals.splice(i, 1);
+                }
+                ;
+                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 100); })];
+            case 8:
+                _b.sent();
                 _b.label = 9;
             case 9:
                 i++;
-                return [3 /*break*/, 6];
-            case 10: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 5000); })];
-            case 11:
+                return [3 /*break*/, 5];
+            case 10: return [3 /*break*/, 13];
+            case 11: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 5000); })];
+            case 12:
                 _b.sent();
-                return [3 /*break*/, 0];
-            case 12: return [2 /*return*/];
+                _b.label = 13;
+            case 13: return [3 /*break*/, 0];
+            case 14: return [2 /*return*/];
         }
     });
 }); })();

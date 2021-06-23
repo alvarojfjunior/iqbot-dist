@@ -146,6 +146,7 @@ var SIGNALS = [];
                                                             case 0:
                                                                 if (!(message.type === "send")) return [3 /*break*/, 4];
                                                                 message.type = "";
+                                                                console.log('enviando o sinal ' + message.value + ' para a corretora.');
                                                                 signal = iqbot_1.IQSignal.parse(message.value);
                                                                 if (!signal) return [3 /*break*/, 4];
                                                                 return [4 /*yield*/, treidEvoBot.validadeSignal(signal[0])];
