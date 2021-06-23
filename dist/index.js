@@ -117,7 +117,6 @@ var SIGNALS = [];
                                                     ctx.reply("Robô ativo. Envie 'stop' caso queira que ele pare de operar.");
                                                 }
                                                 else if (textSignal === "stop") {
-                                                    //DESLIGA O ROBO DE ANALISE
                                                     worker.postMessage({ type: "power", value: false });
                                                     isRunning = false;
                                                     ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
