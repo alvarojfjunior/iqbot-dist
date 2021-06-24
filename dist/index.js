@@ -102,6 +102,7 @@ var SIGNALS = [];
                                         case 1:
                                             if (!(textSignal === "start")) return [3 /*break*/, 5];
                                             //STARTING THE ANALYZER
+                                            ctx.reply("Ativando o bot... Aguarde!");
                                             utils_1.stepOras["BOT ANALYSIS"].start('Starting the signals analyzer ....');
                                             return [4 /*yield*/, puppeteer_1.default.launch()];
                                         case 2:
