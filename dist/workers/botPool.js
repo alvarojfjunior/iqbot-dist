@@ -115,7 +115,7 @@ parentPort.on('message', function (message) {
                 strSignal = "M" + queueSignals[i].m + ";" + queueSignals[i].pair + ";" + queueSignals[i].time + ";" + queueSignals[i].action;
                 parentPort.postMessage({ type: 'send', value: strSignal });
                 queueSignals.splice(i, 1);
-                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 30000); })];
+                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 60000); })];
             case 6:
                 _b.sent();
                 return [3 /*break*/, 9];
