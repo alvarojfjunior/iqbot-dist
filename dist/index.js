@@ -96,11 +96,11 @@ var SIGNALS = [];
                                         case 0:
                                             _a.trys.push([0, 7, , 8]);
                                             textSignal = ctx.message.text;
-                                            if (!(textSignal === "start" && isRunning)) return [3 /*break*/, 1];
+                                            if (!((textSignal === "start" || textSignal === "Start") && isRunning)) return [3 /*break*/, 1];
                                             ctx.reply("O robô já ativo. Envie 'stop' caso queira que ele pare de operar.");
                                             return [3 /*break*/, 6];
                                         case 1:
-                                            if (!(textSignal === "start")) return [3 /*break*/, 5];
+                                            if (!(textSignal === "start" || textSignal === "Start")) return [3 /*break*/, 5];
                                             //STARTING THE ANALYZER
                                             ctx.reply("Ativando o bot... Aguarde!");
                                             utils_1.stepOras["BOT ANALYSIS"].start('Starting the signals analyzer ....');
@@ -120,7 +120,7 @@ var SIGNALS = [];
                                             ctx.reply("Robô ativo. Envie 'stop' caso queira que ele pare de operar.");
                                             return [3 /*break*/, 6];
                                         case 5:
-                                            if (textSignal === "stop") {
+                                            if (textSignal === "stop" || textSignal === "Stop") {
                                                 worker.postMessage({ type: "power", value: false });
                                                 isRunning = false;
                                                 ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
