@@ -60,7 +60,7 @@ var parentPort = require('worker_threads').parentPort;
 var moment = require('moment');
 var handleAuth = require('../credential/credentials').handleAuth;
 var queueSignals = [];
-var isRunning = true;
+var isRunning = false;
 parentPort.on('message', function (message) {
     if (message.type === 'power') {
         isRunning = message.value;
@@ -91,7 +91,6 @@ parentPort.on('message', function (message) {
             case 0:
                 if (!true) return [3 /*break*/, 14];
                 if (!((moment().hours() === 1 && moment().minutes() === 12) || (moment().hours() === 13 && moment().minutes() === 12))) return [3 /*break*/, 4];
-                console.log('entrou no timer');
                 return [4 /*yield*/, handleAuth()];
             case 1:
                 _a = _b.sent(), signals = _a.signals, auth = _a.auth;
