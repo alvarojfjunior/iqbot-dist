@@ -82,113 +82,115 @@ var SIGNALS = [];
                     bot.connect({ email: credentials.iqEmail, password: credentials.iqPassword }, function (bot) { return __awaiter(void 0, void 0, void 0, function () {
                         var telegram, worker;
                         return __generator(this, function (_a) {
-                            telegram = new telegraf_1.Telegraf(credentials.telegramHash);
-                            worker = new worker_threads_1.Worker(path_1.default.resolve(__dirname, "workers/botPool.js"));
-                            worker.postMessage({ type: "register", value: credentials.signals });
-                            telegram.start(function (ctx) {
-                                return ctx.reply("O robô está disponível, envie 'start' | 'stop' para controlar a sua operatividade.");
-                            });
-                            console.log("Envie 'start' para o seu bot pelo telegram, para que ele come\u00E7e a operar!");
-                            telegram.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-                                var textSignal, b, p, e_1;
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            _a.trys.push([0, 7, , 8]);
-                                            textSignal = ctx.message.text;
-                                            if (!((textSignal === "start" || textSignal === "Start") && isRunning)) return [3 /*break*/, 1];
-                                            ctx.reply("O robô já ativo. Envie 'stop' caso queira que ele pare de operar.");
-                                            return [3 /*break*/, 6];
-                                        case 1:
-                                            if (!(textSignal === "start" || textSignal === "Start")) return [3 /*break*/, 5];
-                                            //STARTING THE ANALYZER
-                                            ctx.reply("Ativando o bot... Aguarde!");
-                                            utils_1.stepOras["BOT ANALYSIS"].start('Starting the signals analyzer ....');
-                                            return [4 /*yield*/, puppeteer_1.default.launch()];
-                                        case 2:
-                                            b = _a.sent();
-                                            return [4 /*yield*/, b.newPage()];
-                                        case 3:
-                                            p = _a.sent();
-                                            return [4 /*yield*/, p.goto("http://treid.evo-lution.ru")];
-                                        case 4:
-                                            _a.sent();
-                                            treidEvoBot = new treidEvolutionBot_1.default(b, p);
-                                            utils_1.stepOras["BOT ANALYSIS"].done('The Analyzer is Ready!');
-                                            worker.postMessage({ type: "power", value: true });
-                                            isRunning = true;
-                                            ctx.reply("Robô ativo. Envie 'stop' caso queira que ele pare de operar.");
-                                            return [3 /*break*/, 6];
-                                        case 5:
-                                            if (textSignal === "stop" || textSignal === "Stop") {
-                                                worker.postMessage({ type: "power", value: false });
-                                                isRunning = false;
-                                                ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
-                                            }
-                                            else if (!isRunning)
-                                                ctx.reply("O robô não está ligado, envie 'start' para começar a operar.");
-                                            // REGISTER SIGNALS
-                                            else if (SIGNALS.length > 0) {
-                                                ctx.reply("O robô está ocupado, tente mais tarde.");
-                                            }
-                                            else {
-                                                SIGNALS = iqbot_1.IQSignal.parse(textSignal);
-                                                if (SIGNALS.length === 0) {
-                                                    ctx.reply("Sinal(s) invalido(s).");
-                                                }
-                                                else {
-                                                    worker.postMessage({ type: "register", value: textSignal });
-                                                    ctx.reply("Sinal(s) registrado(s).");
-                                                    SIGNALS = [];
-                                                }
-                                            }
-                                            _a.label = 6;
-                                        case 6:
-                                            worker.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
-                                                var signal, recommend;
-                                                return __generator(this, function (_a) {
-                                                    switch (_a.label) {
-                                                        case 0:
-                                                            if (!(message.type === "send")) return [3 /*break*/, 4];
-                                                            message.type = "";
-                                                            console.log('enviando o sinal ' + message.value + ' para a corretora.');
-                                                            signal = iqbot_1.IQSignal.parse(message.value);
-                                                            if (!signal) return [3 /*break*/, 4];
-                                                            return [4 /*yield*/, treidEvoBot.validadeSignal(signal[0])];
-                                                        case 1:
-                                                            recommend = _a.sent();
-                                                            if (!recommend) return [3 /*break*/, 3];
-                                                            return [4 /*yield*/, bot.runSignal(signal[0])];
-                                                        case 2:
-                                                            _a.sent();
-                                                            console.log("O sinal " + message.value + " foi enviado para a corretora. " + moment_1.default().format('hh:mm:ss'));
-                                                            ctx.reply("O sinal " + message.value + " foi enviado para a corretora. " + moment_1.default().format('hh:mm:ss'));
-                                                            return [3 /*break*/, 4];
-                                                        case 3:
-                                                            console.log("O sinal " + message.value + " n\u00E3o passou na an\u00E1lise do rob\u00F4. " + moment_1.default().format('hh:mm:ss'));
-                                                            _a.label = 4;
-                                                        case 4: return [2 /*return*/];
+                            switch (_a.label) {
+                                case 0:
+                                    telegram = new telegraf_1.Telegraf(credentials.telegramHash);
+                                    worker = new worker_threads_1.Worker(path_1.default.resolve(__dirname, "workers/botPool.js"));
+                                    worker.postMessage({ type: "register", value: credentials.signals });
+                                    return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 1000); })];
+                                case 1:
+                                    _a.sent();
+                                    console.log("Envie 'start' para o seu bot pelo telegram, para que ele come\u00E7e a operar!");
+                                    telegram.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
+                                        var textSignal, b, p, e_1;
+                                        return __generator(this, function (_a) {
+                                            switch (_a.label) {
+                                                case 0:
+                                                    _a.trys.push([0, 7, , 8]);
+                                                    textSignal = ctx.message.text;
+                                                    if (!((textSignal === "start" || textSignal === "Start") && isRunning)) return [3 /*break*/, 1];
+                                                    ctx.reply("O robô já ativo. Envie 'stop' caso queira que ele pare de operar.");
+                                                    return [3 /*break*/, 6];
+                                                case 1:
+                                                    if (!(textSignal === "start" || textSignal === "Start")) return [3 /*break*/, 5];
+                                                    //STARTING THE ANALYZER
+                                                    ctx.reply("Ativando o bot... Aguarde!");
+                                                    utils_1.stepOras["BOT ANALYSIS"].start('Starting the signals analyzer ....');
+                                                    return [4 /*yield*/, puppeteer_1.default.launch()];
+                                                case 2:
+                                                    b = _a.sent();
+                                                    return [4 /*yield*/, b.newPage()];
+                                                case 3:
+                                                    p = _a.sent();
+                                                    return [4 /*yield*/, p.goto("http://treid.evo-lution.ru")];
+                                                case 4:
+                                                    _a.sent();
+                                                    treidEvoBot = new treidEvolutionBot_1.default(b, p);
+                                                    utils_1.stepOras["BOT ANALYSIS"].done('The Analyzer is Ready!');
+                                                    worker.postMessage({ type: "power", value: true });
+                                                    isRunning = true;
+                                                    ctx.reply("Robô ativo. Envie 'stop' caso queira que ele pare de operar.");
+                                                    return [3 /*break*/, 6];
+                                                case 5:
+                                                    if (textSignal === "stop" || textSignal === "Stop") {
+                                                        worker.postMessage({ type: "power", value: false });
+                                                        isRunning = false;
+                                                        ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
                                                     }
-                                                });
-                                            }); });
-                                            worker.on("error", function (error) {
-                                                console.log("Houve um erro: ", error);
-                                                ctx.reply("Houve um erro: " + error);
-                                            });
-                                            worker.on("exit", function (code) {
-                                                console.log("O robô parou, código: ", code);
-                                                ctx.reply("O rob\u00F4 parou: " + code);
-                                            });
-                                            return [3 /*break*/, 8];
-                                        case 7:
-                                            e_1 = _a.sent();
-                                            return [3 /*break*/, 8];
-                                        case 8: return [2 /*return*/];
-                                    }
-                                });
-                            }); });
-                            telegram.launch();
-                            return [2 /*return*/];
+                                                    else if (!isRunning)
+                                                        ctx.reply("O robô não está ligado, envie 'start' para começar a operar.");
+                                                    else if (SIGNALS.length > 0) {
+                                                        ctx.reply("O robô está ocupado, tente mais tarde.");
+                                                    }
+                                                    else {
+                                                        SIGNALS = iqbot_1.IQSignal.parse(textSignal);
+                                                        if (SIGNALS.length === 0) {
+                                                            ctx.reply("Sinal(s) invalido(s).");
+                                                        }
+                                                        else {
+                                                            worker.postMessage({ type: "register", value: textSignal });
+                                                            ctx.reply("Sinal(s) registrado(s).");
+                                                            SIGNALS = [];
+                                                        }
+                                                    }
+                                                    _a.label = 6;
+                                                case 6:
+                                                    worker.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
+                                                        var signal, recommend;
+                                                        return __generator(this, function (_a) {
+                                                            switch (_a.label) {
+                                                                case 0:
+                                                                    if (!(message.type === "send")) return [3 /*break*/, 4];
+                                                                    message.type = "";
+                                                                    console.log('enviando o sinal ' + message.value + ' para a corretora.');
+                                                                    signal = iqbot_1.IQSignal.parse(message.value);
+                                                                    if (!signal) return [3 /*break*/, 4];
+                                                                    return [4 /*yield*/, treidEvoBot.validadeSignal(signal[0])];
+                                                                case 1:
+                                                                    recommend = _a.sent();
+                                                                    if (!recommend) return [3 /*break*/, 3];
+                                                                    return [4 /*yield*/, bot.runSignal(signal[0])];
+                                                                case 2:
+                                                                    _a.sent();
+                                                                    console.log("O sinal " + message.value + " foi enviado para a corretora. " + moment_1.default().format('hh:mm:ss'));
+                                                                    ctx.reply("O sinal " + message.value + " foi enviado para a corretora. " + moment_1.default().format('hh:mm:ss'));
+                                                                    return [3 /*break*/, 4];
+                                                                case 3:
+                                                                    console.log("O sinal " + message.value + " n\u00E3o passou na an\u00E1lise do rob\u00F4. " + moment_1.default().format('hh:mm:ss'));
+                                                                    _a.label = 4;
+                                                                case 4: return [2 /*return*/];
+                                                            }
+                                                        });
+                                                    }); });
+                                                    worker.on("error", function (error) {
+                                                        console.log("Houve um erro: ", error);
+                                                        ctx.reply("Houve um erro: " + error);
+                                                    });
+                                                    worker.on("exit", function (code) {
+                                                        console.log("O robô parou, código: ", code);
+                                                        ctx.reply("O rob\u00F4 parou: " + code);
+                                                    });
+                                                    return [3 /*break*/, 8];
+                                                case 7:
+                                                    e_1 = _a.sent();
+                                                    return [3 /*break*/, 8];
+                                                case 8: return [2 /*return*/];
+                                            }
+                                        });
+                                    }); });
+                                    telegram.launch();
+                                    return [2 /*return*/];
+                            }
                         });
                     }); });
                 return [2 /*return*/];

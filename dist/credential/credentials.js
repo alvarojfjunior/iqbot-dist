@@ -88,7 +88,7 @@ var handleAuth = function () { return __awaiter(void 0, void 0, void 0, function
                 signals = firestoreQuery.docs.map(function (x) { return x.data(); });
                 credentials.auth = true;
                 // @ts-ignore
-                credentials.signals = signals[0].signals;
+                credentials.signals = String(signals[0].signals).replace(/\s/g, '');
                 return [2 /*return*/, credentials];
             case 4:
                 error_1 = _a.sent();

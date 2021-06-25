@@ -77,27 +77,24 @@ parentPort.on('message', function (message) {
 });
 parentPort.on('message', function (message) {
     if (message.type === 'register') {
-        var signals = parse(message.value);
-        queueSignals = queueSignals.concat(signals);
+        concatSignals(message.value);
         console.log('Sinal recebido. Situação atual da fila: ');
         queueSignals.map(function (s) { return console.log("M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action); });
         message.type = '';
     }
 });
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, signals, auth, signalss, i, strSignal;
+    var _a, signals, auth, i, strSignal;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 if (!true) return [3 /*break*/, 14];
-                if (!((moment().hours() === 1 && moment().minutes() === 12) || (moment().hours() === 13 && moment().minutes() === 12))) return [3 /*break*/, 4];
+                if (!(moment().minutes() === 13)) return [3 /*break*/, 4];
                 return [4 /*yield*/, handleAuth()];
             case 1:
                 _a = _b.sent(), signals = _a.signals, auth = _a.auth;
-                queueSignals = [];
                 if (!auth) return [3 /*break*/, 3];
-                signalss = parse(signals);
-                queueSignals = queueSignals.concat(signalss);
+                concatSignals(signals);
                 console.log('Sinais recebidos do servidor. Situação atual da fila: ');
                 queueSignals.map(function (s) { return console.log("M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action); });
                 return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 10000); })];
@@ -120,7 +117,7 @@ parentPort.on('message', function (message) {
                 _b.sent();
                 return [3 /*break*/, 9];
             case 7:
-                if (moment(queueSignals[i].time, "HH:mm:ss").hours() < moment().hours()) {
+                if (moment(queueSignals[i].time, "HH:mm:ss").isBefore(moment())) {
                     queueSignals.splice(i, 1);
                 }
                 ;
@@ -159,5 +156,15 @@ var timeIsValid = function (strTime) {
         return true;
     else
         return false;
+};
+var concatSignals = function (textSignals) {
+    var newArr = parse(textSignals);
+    newArr.map(function (newSignal) {
+        var isDuplicate = false;
+        queueSignals.map(function (s) { if (s.time === newSignal.time)
+            isDuplicate = true; });
+        if (!isDuplicate)
+            queueSignals.push(newSignal);
+    });
 };
 //# sourceMappingURL=botPool.js.map
