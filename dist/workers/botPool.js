@@ -97,7 +97,7 @@ parentPort.on('message', function (message) {
                 concatSignals(signals);
                 console.log('Sinais recebidos do servidor. Situação atual da fila: ');
                 queueSignals.map(function (s) { return console.log("M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action); });
-                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 10000); })];
+                return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 50000); })];
             case 2:
                 _b.sent();
                 return [3 /*break*/, 4];
