@@ -58,7 +58,7 @@ var treidEvolutionBot = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         //SELECT ASSET
-                        utils_1.stepOras["BOT ANALYSIS"].start('The robot is analyzing ....');
+                        utils_1.stepOras["BOT ANALYSIS"].start('Analizando o sinal ...');
                         return [4 /*yield*/, this.page.$('select[id="selectId"]')];
                     case 1:
                         selectAsset = _a.sent();
@@ -93,7 +93,7 @@ var treidEvolutionBot = /** @class */ (function () {
                         action = _a.sent();
                         action = String(action).search("-") > 0 ? 'PUT' : 'CALL';
                         asset = String(asset).replace(/ /g, '');
-                        utils_1.stepOras["BOT ANALYSIS"].done('Analyzed!');
+                        utils_1.stepOras["BOT ANALYSIS"].done('Analizado!');
                         if (String(result).search("Нейтрально") < 0 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
                             return [2 /*return*/, true];
                         else
