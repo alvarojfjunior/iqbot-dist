@@ -83,6 +83,12 @@ parentPort.on('message', function (message) {
         message.type = '';
     }
 });
+parentPort.on('message', function (message) {
+    if (message.type === 'makeList') {
+        parentPort.postMessage({ type: 'getList', value: queueSignals.map(function (s) { return "M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action + "\n"; }) });
+        message.type = '';
+    }
+});
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a, signals, auth, i, strSignal;
     return __generator(this, function (_b) {

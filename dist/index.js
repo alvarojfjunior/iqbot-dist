@@ -72,6 +72,7 @@ var bot = iqbot_1.default();
 var treidEvoBot;
 var isAnaliysis = true;
 var SIGNALS = [];
+var queueSignals = '';
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var credentials;
     return __generator(this, function (_a) {
@@ -97,11 +98,11 @@ var SIGNALS = [];
                                         return __generator(this, function (_a) {
                                             switch (_a.label) {
                                                 case 0:
-                                                    _a.trys.push([0, 9, , 10]);
+                                                    _a.trys.push([0, 13, , 14]);
                                                     textSignal = ctx.message.text;
                                                     if (!((textSignal === "start" || textSignal === "Start") && isRunning)) return [3 /*break*/, 1];
                                                     ctx.reply("O robô já ativo. Envie 'stop' caso queira que ele pare de operar.");
-                                                    return [3 /*break*/, 8];
+                                                    return [3 /*break*/, 12];
                                                 case 1:
                                                     if (!(textSignal === "start" || textSignal === "Start")) return [3 /*break*/, 7];
                                                     if (!(moment_1.default().isoWeekday() < 6 && isAnaliysis)) return [3 /*break*/, 5];
@@ -126,20 +127,32 @@ var SIGNALS = [];
                                                 case 6:
                                                     worker.postMessage({ type: "power", value: true });
                                                     isRunning = true;
-                                                    return [3 /*break*/, 8];
+                                                    return [3 /*break*/, 12];
                                                 case 7:
-                                                    if (textSignal === "stop" || textSignal === "Stop") {
-                                                        worker.postMessage({ type: "power", value: false });
-                                                        isRunning = false;
-                                                        ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
-                                                    }
-                                                    else if (textSignal === "start sem analizador") {
-                                                        isAnaliysis = false;
-                                                        isRunning = true;
-                                                        worker.postMessage({ type: "power", value: true });
-                                                        ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR. Envie 'stop' caso queira que ele pare de operar.");
-                                                    }
-                                                    else if (!isRunning)
+                                                    if (!(textSignal === "stop" || textSignal === "Stop")) return [3 /*break*/, 8];
+                                                    worker.postMessage({ type: "power", value: false });
+                                                    isAnaliysis = true;
+                                                    isRunning = false;
+                                                    ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
+                                                    return [3 /*break*/, 12];
+                                                case 8:
+                                                    if (!(textSignal === "start sem analizador")) return [3 /*break*/, 9];
+                                                    isAnaliysis = false;
+                                                    isRunning = true;
+                                                    worker.postMessage({ type: "power", value: true });
+                                                    ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR. Envie 'stop' caso queira que ele pare de operar.");
+                                                    return [3 /*break*/, 12];
+                                                case 9:
+                                                    if (!(textSignal === 'status' || textSignal === 'Status')) return [3 /*break*/, 11];
+                                                    worker.postMessage({ type: "makeList", value: false });
+                                                    return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 100); })];
+                                                case 10:
+                                                    _a.sent();
+                                                    ctx.reply("O rob\u00F4 est\u00E1 " + (isRunning ? 'ATIVO' : 'INATIVO'));
+                                                    ctx.reply("STATUS DA FILA:" + queueSignals);
+                                                    return [3 /*break*/, 12];
+                                                case 11:
+                                                    if (!isRunning)
                                                         ctx.reply("O robô não está ligado, envie 'start' para começar a operar.");
                                                     else if (SIGNALS.length > 0) {
                                                         ctx.reply("O robô está ocupado, tente mais tarde.");
@@ -155,8 +168,8 @@ var SIGNALS = [];
                                                             SIGNALS = [];
                                                         }
                                                     }
-                                                    _a.label = 8;
-                                                case 8:
+                                                    _a.label = 12;
+                                                case 12:
                                                     worker.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
                                                         var signal, recommend;
                                                         return __generator(this, function (_a) {
@@ -188,9 +201,19 @@ var SIGNALS = [];
                                                                     return [3 /*break*/, 7];
                                                                 case 6:
                                                                     console.log("O sinal " + message.value + " n\u00E3o passou na an\u00E1lise do rob\u00F4. " + moment_1.default().format('hh:mm:ss'));
+                                                                    ctx.reply("O sinal " + message.value + " n\u00E3o passou na an\u00E1lise do rob\u00F4. " + moment_1.default().format('hh:mm:ss'));
                                                                     _a.label = 7;
                                                                 case 7: return [2 /*return*/];
                                                             }
+                                                        });
+                                                    }); });
+                                                    worker.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
+                                                        return __generator(this, function (_a) {
+                                                            if (message.type === "getList") {
+                                                                queueSignals = message.value;
+                                                                message.type = "";
+                                                            }
+                                                            return [2 /*return*/];
                                                         });
                                                     }); });
                                                     worker.on("error", function (error) {
@@ -201,11 +224,11 @@ var SIGNALS = [];
                                                         console.log("O robô parou, código: ", code);
                                                         ctx.reply("O rob\u00F4 parou: " + code);
                                                     });
-                                                    return [3 /*break*/, 10];
-                                                case 9:
+                                                    return [3 /*break*/, 14];
+                                                case 13:
                                                     e_1 = _a.sent();
-                                                    return [3 /*break*/, 10];
-                                                case 10: return [2 /*return*/];
+                                                    return [3 /*break*/, 14];
+                                                case 14: return [2 /*return*/];
                                             }
                                         });
                                     }); });
