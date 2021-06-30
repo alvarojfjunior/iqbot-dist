@@ -85,7 +85,7 @@ parentPort.on('message', function (message) {
 });
 parentPort.on('message', function (message) {
     if (message.type === 'makeList') {
-        parentPort.postMessage({ type: 'getList', value: queueSignals.map(function (s) { return "M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action + "\n"; }) });
+        parentPort.postMessage({ type: 'getList', value: '\n' + queueSignals.map(function (s) { return "M" + s.m + ";" + s.pair + ";" + s.time + ";" + s.action + "\n"; }) });
         message.type = '';
     }
 });
