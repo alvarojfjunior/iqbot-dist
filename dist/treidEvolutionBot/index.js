@@ -88,11 +88,12 @@ var treidEvolutionBot = /** @class */ (function () {
                         return [4 /*yield*/, this.page.$eval('#eurusd p:nth-child(2)', function (e) { return e.textContent; })];
                     case 6:
                         result = _a.sent();
-                        return [4 /*yield*/, this.page.$eval('#eurusd center p span:nth-child(2)', function (e) { return e.textContent; })];
-                    case 7:
-                        action = _a.sent();
-                        action = String(action).search("-") > 0 ? 'PUT' : 'CALL';
+                        action = String(result).search("продавать") > 0 ? 'PUT' : 'CALL';
+                        //продавать - PUT
+                        //Покупать - CALL
                         asset = String(asset).replace(/ /g, '');
+                        //console.log(String(result).search("Нейтрально") < 0, signal.action, result, 'AQUI => ' + action, asset, signal.pair[0]+'/'+signal.pair[1])
+                        //await this.page.screenshot({ path: 'example.png' });
                         utils_1.stepOras["BOT ANALYSIS"].done('Analizado!');
                         if (String(result).search("Нейтрально") < 0 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
                             return [2 /*return*/, true];
