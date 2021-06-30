@@ -92,10 +92,8 @@ var treidEvolutionBot = /** @class */ (function () {
                         //продавать - PUT
                         //Покупать - CALL
                         asset = String(asset).replace(/ /g, '');
-                        console.log(String(result).search("Нейтрально") < 0, signal.action, result, 'AQUI => ' + action, asset, signal.pair[0] + '/' + signal.pair[1]);
-                        return [4 /*yield*/, this.page.screenshot({ path: 'example.png' })];
-                    case 7:
-                        _a.sent();
+                        //console.log(String(result).search("Нейтрально") < 0, signal.action, result, 'AQUI => ' + action, asset, signal.pair[0]+'/'+signal.pair[1])
+                        //await this.page.screenshot({ path: 'example.png' });
                         utils_1.stepOras["BOT ANALYSIS"].done('Analizado!');
                         if (String(result).search("Нейтрально") < 0 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
                             return [2 /*return*/, true];
