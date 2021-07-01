@@ -222,14 +222,14 @@ var TradingBot = /** @class */ (function () {
                         //SELECIONA O ATIVO
                         _a.sent();
                         //await this.setAmount(1);
-                        return [4 /*yield*/, this.sleep(signal.getTime().remaining - 3500)];
+                        return [4 /*yield*/, this.sleep(signal.getTime().remaining - 3000)];
                     case 2:
                         //await this.setAmount(1);
                         _a.sent();
                         return [4 /*yield*/, this.setTime(1, signal.m)];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, this.sleep(signal.getTime().remaining - 2000)];
+                        return [4 /*yield*/, this.sleep(signal.getTime().remaining - 2500)];
                     case 4:
                         _a.sent();
                         return [4 /*yield*/, this.clickComponent(signal.action === "CALL" ? "higherBtn" : "lowerBtn")];
