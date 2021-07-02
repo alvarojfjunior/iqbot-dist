@@ -53,17 +53,20 @@ var treidEvolutionBot = /** @class */ (function () {
             });
         }); };
         this.validadeSignal = function (signal) { return __awaiter(_this, void 0, void 0, function () {
-            var selectAsset, m, asset, result, action;
+            var selectAsset, m, asset, result, action, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         //SELECT ASSET
                         utils_1.stepOras["BOT ANALYSIS"].start('Analizando o sinal ...');
-                        return [4 /*yield*/, this.page.$('select[id="selectId"]')];
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 8, , 9]);
+                        return [4 /*yield*/, this.page.$('select[id="selectId"]')];
+                    case 2:
                         selectAsset = _a.sent();
                         return [4 /*yield*/, (selectAsset === null || selectAsset === void 0 ? void 0 : selectAsset.type(signal.pair[0] + "/" + signal.pair[1]))];
-                    case 2:
+                    case 3:
                         _a.sent();
                         m = "";
                         if (signal.m === 1)
@@ -75,31 +78,38 @@ var treidEvolutionBot = /** @class */ (function () {
                         else if (signal.m === 30)
                             m = "1800";
                         return [4 /*yield*/, this.page.select("#selectId1", m)];
-                    case 3:
+                    case 4:
                         _a.sent();
                         return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 8000); })
                             //GET PAGE INFORMATIONS
                         ];
-                    case 4:
+                    case 5:
                         _a.sent();
                         return [4 /*yield*/, this.page.$eval('#eurusd center h3', function (e) { return e.textContent; })];
-                    case 5:
+                    case 6:
                         asset = _a.sent();
                         return [4 /*yield*/, this.page.$eval('#eurusd p:nth-child(2)', function (e) { return e.textContent; })];
-                    case 6:
+                    case 7:
                         result = _a.sent();
-                        action = String(result).search("продавать") > 0 ? 'PUT' : 'CALL';
-                        //продавать - PUT
-                        //Покупать - CALL
-                        asset = String(asset).replace(/ /g, '');
+                        action = '';
+                        if (String(result).search("продавать") > 0)
+                            action = 'PUT';
+                        else if (String(result).search("Покупать") > 0)
+                            action = 'CALL';
+                        asset ? asset = String(asset).replace(/ /g, '') : asset = '';
                         //console.log(String(result).search("Нейтрально") < 0, signal.action, result, 'AQUI => ' + action, asset, signal.pair[0]+'/'+signal.pair[1])
                         //await this.page.screenshot({ path: 'example.png' });
                         utils_1.stepOras["BOT ANALYSIS"].done('Analizado!');
-                        if (String(result).search("Нейтрально") < 0 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
+                        if (action.length > 5 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
                             return [2 /*return*/, true];
                         else
                             return [2 /*return*/, false];
-                        return [2 /*return*/];
+                        return [3 /*break*/, 9];
+                    case 8:
+                        error_1 = _a.sent();
+                        utils_1.stepOras["BOT ANALYSIS"].done('O analizador está com problemas!');
+                        return [2 /*return*/, false];
+                    case 9: return [2 /*return*/];
                 }
             });
         }); };
