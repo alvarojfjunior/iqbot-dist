@@ -94,64 +94,74 @@ var queueSignals = '';
                                     _a.sent();
                                     console.log("Envie 'start' para o seu bot pelo telegram, para que ele come\u00E7e a operar!");
                                     telegram.on("message", function (ctx) { return __awaiter(void 0, void 0, void 0, function () {
-                                        var textSignal, b, p, e_1;
+                                        var textSignal, b, p, error_1, e_1;
                                         return __generator(this, function (_a) {
                                             switch (_a.label) {
                                                 case 0:
-                                                    _a.trys.push([0, 13, , 14]);
+                                                    _a.trys.push([0, 16, , 17]);
                                                     textSignal = ctx.message.text;
                                                     if (!((textSignal === "start" || textSignal === "Start") && isRunning)) return [3 /*break*/, 1];
                                                     ctx.reply("O robô já ativo. Envie 'stop' caso queira que ele pare de operar.");
-                                                    return [3 /*break*/, 12];
+                                                    return [3 /*break*/, 15];
                                                 case 1:
-                                                    if (!(textSignal === "start" || textSignal === "Start")) return [3 /*break*/, 7];
-                                                    if (!(moment_1.default().isoWeekday() < 6 && isAnaliysis)) return [3 /*break*/, 5];
+                                                    if (!(textSignal === "start" || textSignal === "Start")) return [3 /*break*/, 10];
+                                                    if (!(moment_1.default().isoWeekday() < 6 && isAnaliysis)) return [3 /*break*/, 8];
                                                     ctx.reply("Ativando o bot... Aguarde!");
                                                     utils_1.stepOras["BOT ANALYSIS"].start('Iniciando o anlizador de sinais....');
-                                                    return [4 /*yield*/, puppeteer_1.default.launch({ headless: true, args: ['--no-sandbox'] })];
+                                                    _a.label = 2;
                                                 case 2:
+                                                    _a.trys.push([2, 6, , 7]);
+                                                    return [4 /*yield*/, puppeteer_1.default.launch({ headless: true, args: ['--no-sandbox'] })];
+                                                case 3:
                                                     b = _a.sent();
                                                     return [4 /*yield*/, b.newPage()];
-                                                case 3:
+                                                case 4:
                                                     p = _a.sent();
                                                     return [4 /*yield*/, p.goto("http://treid.evo-lution.ru")];
-                                                case 4:
+                                                case 5:
                                                     _a.sent();
                                                     treidEvoBot = new treidEvolutionBot_1.default(b, p);
                                                     utils_1.stepOras["BOT ANALYSIS"].done('Analizador iniciado!');
                                                     ctx.reply("Robô ativo. Envie 'stop' caso queira que ele pare de operar.");
-                                                    return [3 /*break*/, 6];
-                                                case 5:
-                                                    ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR pois este funciona apenas de segunda a sexta. Envie 'stop' caso queira que ele pare de operar.");
-                                                    _a.label = 6;
+                                                    return [3 /*break*/, 7];
                                                 case 6:
+                                                    error_1 = _a.sent();
+                                                    utils_1.stepOras["BOT ANALYSIS"].done('Houve um problema parar rodadar o analizador.');
+                                                    ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR por mal funcionamento do analizador. Envie 'stop' caso queira que ele pare de operar.");
+                                                    isAnaliysis = false;
+                                                    return [3 /*break*/, 7];
+                                                case 7: return [3 /*break*/, 9];
+                                                case 8:
+                                                    ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR pois este funciona apenas de segunda a sexta. Envie 'stop' caso queira que ele pare de operar.");
+                                                    _a.label = 9;
+                                                case 9:
                                                     worker.postMessage({ type: "power", value: true });
                                                     isRunning = true;
-                                                    return [3 /*break*/, 12];
-                                                case 7:
-                                                    if (!(textSignal === "stop" || textSignal === "Stop")) return [3 /*break*/, 8];
+                                                    return [3 /*break*/, 15];
+                                                case 10:
+                                                    if (!(textSignal === "stop" || textSignal === "Stop")) return [3 /*break*/, 11];
                                                     worker.postMessage({ type: "power", value: false });
                                                     isAnaliysis = true;
                                                     isRunning = false;
                                                     ctx.reply("Robo parado. Envie 'start' caso queira que ele volte a operar.");
-                                                    return [3 /*break*/, 12];
-                                                case 8:
-                                                    if (!(textSignal === "start sem analizador")) return [3 /*break*/, 9];
+                                                    return [3 /*break*/, 15];
+                                                case 11:
+                                                    if (!(textSignal === "start sem analizador")) return [3 /*break*/, 12];
                                                     isAnaliysis = false;
                                                     isRunning = true;
                                                     worker.postMessage({ type: "power", value: true });
                                                     ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR. Envie 'stop' caso queira que ele pare de operar.");
-                                                    return [3 /*break*/, 12];
-                                                case 9:
-                                                    if (!(textSignal === 'status' || textSignal === 'Status')) return [3 /*break*/, 11];
+                                                    return [3 /*break*/, 15];
+                                                case 12:
+                                                    if (!(textSignal === 'status' || textSignal === 'Status')) return [3 /*break*/, 14];
                                                     worker.postMessage({ type: "makeList", value: false });
                                                     return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(resolve, 100); })];
-                                                case 10:
+                                                case 13:
                                                     _a.sent();
                                                     ctx.reply("O rob\u00F4 est\u00E1 " + (isRunning ? 'ATIVO' : 'INATIVO'));
                                                     ctx.reply("STATUS DA FILA:" + queueSignals);
-                                                    return [3 /*break*/, 12];
-                                                case 11:
+                                                    return [3 /*break*/, 15];
+                                                case 14:
                                                     if (!isRunning)
                                                         ctx.reply("O robô não está ligado, envie 'start' para começar a operar.");
                                                     else if (SIGNALS.length > 0) {
@@ -168,8 +178,8 @@ var queueSignals = '';
                                                             SIGNALS = [];
                                                         }
                                                     }
-                                                    _a.label = 12;
-                                                case 12:
+                                                    _a.label = 15;
+                                                case 15:
                                                     worker.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
                                                         var signal, recommend;
                                                         return __generator(this, function (_a) {
@@ -224,11 +234,11 @@ var queueSignals = '';
                                                         console.log("O robô parou, código: ", code);
                                                         ctx.reply("O rob\u00F4 parou: " + code);
                                                     });
-                                                    return [3 /*break*/, 14];
-                                                case 13:
+                                                    return [3 /*break*/, 17];
+                                                case 16:
                                                     e_1 = _a.sent();
-                                                    return [3 /*break*/, 14];
-                                                case 14: return [2 /*return*/];
+                                                    return [3 /*break*/, 17];
+                                                case 17: return [2 /*return*/];
                                             }
                                         });
                                     }); });
