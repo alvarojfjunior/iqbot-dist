@@ -127,7 +127,7 @@ var queueSignals = '';
                                                 case 6:
                                                     error_1 = _a.sent();
                                                     utils_1.stepOras["BOT ANALYSIS"].done('Houve um problema parar rodadar o analizador.');
-                                                    ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR por mal funcionamento do analizador. Envie 'stop' caso queira que ele pare de operar.");
+                                                    ctx.reply("[CUIDADO] Robô ativo SEM O ANALIZADOR por mal funcionamento do mesmo. Envie 'stop' caso queira que ele pare de operar.");
                                                     isAnaliysis = false;
                                                     return [3 /*break*/, 7];
                                                 case 7: return [3 /*break*/, 9];
