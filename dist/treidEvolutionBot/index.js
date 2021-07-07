@@ -89,29 +89,6 @@ var treidEvolutionBot = /** @class */ (function () {
                     case 6:
                         asset = _a.sent();
                         return [4 /*yield*/, this.page.$eval('#eurusd p:nth-child(2)', function (e) { return e.textContent; })];
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    case 7:
-                        result = _a.sent();
-                        action = '';
-                        if (String(result).search("продавать") > 0)
-                            action = 'PUT';
-                        else if (String(result).search("Покупать") > 0)
-                            action = 'CALL';
-                        asset ? asset = String(asset).replace(/ /g, '') : asset = '';
-=======
-                    case 6:
-                        result = _a.sent();
-                        action = String(result).search("продавать") > 0 ? 'PUT' : 'CALL';
-                        //продавать - PUT
-                        //Покупать - CALL
-                        asset = String(asset).replace(/ /g, '');
->>>>>>> 53eb1bfe9f06028beec3c125a0325790de75c271
-                        //console.log(String(result).search("Нейтрально") < 0, signal.action, result, 'AQUI => ' + action, asset, signal.pair[0]+'/'+signal.pair[1])
-                        //await this.page.screenshot({ path: 'example.png' });
-                        utils_1.stepOras["BOT ANALYSIS"].done('Analizado!');
-                        if (action.length > 5 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
-=======
                     case 7:
                         result = _a.sent();
                         action = '';
@@ -124,7 +101,6 @@ var treidEvolutionBot = /** @class */ (function () {
                         //await this.page.screenshot({ path: 'example.png' });
                         utils_1.stepOras["BOT ANALYSIS"].done('Analizado!');
                         if (action.length > 1 && signal.action === action && asset === signal.pair[0] + '/' + signal.pair[1])
->>>>>>> 6d9a593a2c8ff104f344d1520c0bba6ad80377b3
                             return [2 /*return*/, true];
                         else
                             return [2 /*return*/, false];
