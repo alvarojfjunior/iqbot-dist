@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import { Context } from "telegraf";
 import IQSignal from "./IQSignal";
 export default class TradingBot {
     private readonly browser;
@@ -16,6 +17,7 @@ export default class TradingBot {
     clickHigher: () => Promise<void>;
     clickLower: () => Promise<void>;
     runSignal: (signal: IQSignal) => Promise<void>;
+    getResult: (time: number, ctx: Context) => Promise<void>;
     closeBrowser: () => Promise<void>;
     sleep: (ms?: number) => Promise<unknown>;
 }

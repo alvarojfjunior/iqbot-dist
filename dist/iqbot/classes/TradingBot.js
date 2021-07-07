@@ -65,7 +65,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var sharp_1 = __importDefault(require("sharp"));
+var get_image_colors_1 = __importDefault(require("get-image-colors"));
 var components = __importStar(require("../components"));
 var utils_1 = require("../utils");
 var TradingBot = /** @class */ (function () {
@@ -235,7 +240,47 @@ var TradingBot = /** @class */ (function () {
                         return [4 /*yield*/, this.clickComponent(signal.action === "CALL" ? "higherBtn" : "lowerBtn")];
                     case 5:
                         _a.sent();
+                        //this.getResult(signal.m, ctx)
                         utils_1.stepOras["SIGNAL"].done("Sinal " + signal.name + " Finalizado.");
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        this.getResult = function (time, ctx) { return __awaiter(_this, void 0, void 0, function () {
+            var ms;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        ms = time * 60000;
+                        return [4 /*yield*/, this.sleep(ms)];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.page.screenshot({ path: 'afterResult.png' })];
+                    case 2:
+                        _a.sent();
+                        sharp_1.default('./afterResult.png')
+                            .extract({ left: 260, top: 20, width: 80, height: 40 })
+                            .toFile('./result.jpg', function (err) {
+                            if (err)
+                                console.log(err);
+                            else {
+                                var isLoss = false;
+                                get_image_colors_1.default('./result.jpg').then(function (colors) {
+                                    for (var i = 0; i < colors.length; i++) {
+                                        // @ts-ignore
+                                        if (colors[i].rgb()[0] > 210) {
+                                            isLoss = true;
+                                            break;
+                                        }
+                                    }
+                                });
+                                console.log(isLoss);
+                                if (isLoss)
+                                    ctx.reply("Voc\u00EA teve um LOSS");
+                                else
+                                    ctx.reply("Voc\u00EA teve um WIN");
+                            }
+                        });
                         return [2 /*return*/];
                 }
             });
