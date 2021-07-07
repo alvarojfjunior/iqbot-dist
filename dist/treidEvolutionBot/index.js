@@ -94,7 +94,7 @@ var treidEvolutionBot = /** @class */ (function () {
                         action = '';
                         if (String(result).search("продавать") > 0)
                             action = 'PUT';
-                        else if (String(result).search("Покупать") > 0)
+                        else if (String(result).search("Покупать") > 0 || String(result).search("Купить") > 0)
                             action = 'CALL';
                         asset ? asset = String(asset).replace(/ /g, '') : asset = '';
                         //console.log(signal.action, result, action, asset, signal.pair[0]+'/'+signal.pair[1])

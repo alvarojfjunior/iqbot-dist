@@ -30,4 +30,8 @@ export declare const lowerBtn: {
     x: number;
     y: number;
 };
+export declare const result: {
+    x: number;
+    y: number;
+};
 //# sourceMappingURL=index.d.ts.map
